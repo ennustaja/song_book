@@ -59,7 +59,6 @@ public class SongCursorAdapter extends SimpleCursorAdapter {
 		
 		info.setText("");
 		String infoText = cursor.getString(mInfoIndex);
-		//info.append(formatInfo(cursor.getString(mInfoIndex)));
 		
 		if(!mHighlightStr.equals("")){ // Certain text should be highlighted
 			Spannable sText;
@@ -72,7 +71,7 @@ public class SongCursorAdapter extends SimpleCursorAdapter {
 				sText.setSpan(new ForegroundColorSpan(Color.BLACK), index, index + mHighlightStr.length(), 0);
 			} else if((index = infoText.toLowerCase().indexOf(mHighlightStr.toLowerCase())) != -1){
 				// Highlighted text found in info
-				// Only show highlighted text in this case
+				// Only show info text in this case
 				info.append(formatInfo(cursor.getString(mInfoIndex)));
 				sText = (Spannable)info.getText();
 				sText.setSpan(new BackgroundColorSpan(Color.WHITE), index, index + mHighlightStr.length(), 0);
