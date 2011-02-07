@@ -58,24 +58,21 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
         mDbHelper = new SongDbAdapter(this);
         mDbHelper.open();
         
-        //fetchAllSongs();
+        fetchAllSongs();
         
         // Restore preferences
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
        	useInstantSearch = settings.getBoolean("useInstantSearch", true);
        	
-       	TextWatcher searchWatch = new TextWatcher()
-       	{
-			public void afterTextChanged(Editable s) {
-   		        //((TextView)findViewById(R.id.searchFieldEditText)).setText(String.format(getString(R.string.searchFieldEditText), s.length()));
-   		    }
-   		 
-   		    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-   		    }
-   		 
-   		    public void onTextChanged(CharSequence s, int start, int before, int count) {
-   		    }	 
-       	};
+       	TextWatcher searchWatch = new TextWatcher() {
+       		public void onTextChanged(CharSequence s, int start, int before, int count) {
+       			if(useInstantSearch){
+       				fetchSongs(searchField.getText().toString());
+       			}
+       		}
+	       	public void afterTextChanged(Editable arg0) {}
+	       	public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+	    };
 
        	((EditText)findViewById(R.id.searchFieldEditText)).addTextChangedListener(searchWatch);
     }
@@ -84,11 +81,9 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
      * Captures key events from the text field.
      */
     public boolean onKey(View v, int keyCode, KeyEvent event){
-    	if ((event.getAction() == KeyEvent.ACTION_UP) &&
-    			(useInstantSearch || keyCode == KeyEvent.KEYCODE_ENTER)){
-    		if(searchField.getText().toString() != ""){
+    	// Do search on ENTER
+    	if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)){
     			fetchSongs(searchField.getText().toString());
-    		}
         	return true;
     	}
     	return false;
@@ -110,14 +105,13 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
     	boolean searchByText = false;
 
 		try{
+			// First try parsing text as a song number
 			songNum = Integer.parseInt(searchTxt);
 			mSongsCursor = mDbHelper.fetchSongsByNumber(songNum);
 		} catch(NumberFormatException e){
-			// Entered text is not a song number.
-			// Parse it as a String.
+			// Entered text is not a song number, search for a String
 			// Setting searchStr to non-empty causes search text to be highlighted.
 			searchStr = searchTxt;
-			searchByText = true;
 			mSongsCursor = mDbHelper.fetchSongsByString(searchTxt);
 		}
 		
@@ -126,10 +120,10 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
     		// Only one song was found --> Display list and then single song
     		// List display is seen only when returning from single song screen
     		if(mSongsCursor.getCount() == 1){
-    			displayList(searchStr, searchByText);
+    			displayList(searchStr);
     			displaySong();
     		} else { // More than one song was found --> Display list of results
-    			displayList(searchStr, searchByText);
+    			displayList(searchStr);
     		}
     	} else {
     		mSongsCursor = null;
@@ -156,7 +150,7 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
     	startActivity(songIntent);   
     }
     
-    private void displayList(String searchStr, boolean textSearch){;
+    private void displayList(String searchStr){;
         startManagingCursor(mSongsCursor);
         
         // Create an array to specify the fields we want to display in the list
@@ -167,7 +161,6 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
         int[] to = new int[]{R.id.rowSongTitle, R.id.rowSongLyrics, R.id.rowSongInfo};
         
         // Now create a simple cursor adapter and set it to display
-        //SimpleCursorAdapter songs = new SimpleCursorAdapter(this, R.layout.result_row, mSongsCursor, from, to);
         SongCursorAdapter songs = new SongCursorAdapter(this, R.layout.result_row, mSongsCursor, from, to, searchStr);
 
         setListAdapter(songs);
@@ -188,23 +181,25 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
     			c.getString(c.getColumnIndex(SongDbAdapter.KEY_INFO)));
     }
     
+    /**
+     * Saves instant search preference.
+     */
     @Override
     protected void onStop(){
        super.onStop();
 
-      // We need an Editor object to make preference changes.
-      // All objects are from android.context.Context
       SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
       SharedPreferences.Editor editor = settings.edit();
       editor.putBoolean("useInstantSearch", useInstantSearch);
 
-      // Commit the edits!
       editor.commit();
     }
     
+    /**
+     * Creates options menu from options_menu template.
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	Log.d(TAG, "called onCreateOptionsMenu");
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options_menu, menu);
         return true;
