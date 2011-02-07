@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical">
+	
+    <TextView
+    	android:id="@+id/songTitle"
+        android:textSize="25sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Siionin laulu 123"
+		android:paddingLeft="5dip"
+		android:paddingRight="5dip"
+		android:textStyle="bold"/>
+   	<ScrollView
+   		android:layout_height="fill_parent"
+   		android:layout_width="fill_parent">
+		<TextView   
+			android:id="@+id/songLyricsAndInfo"   
+			android:layout_width="fill_parent"  
+			android:layout_height="fill_parent"
+			android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacus mi, volutpat eu ultrices at, blandit in nulla. Nullam diam mi, tempus eu placerat at, interdum sit amet nulla. Nullam pellentesque sollicitudin vehicula. Donec aliquam, quam sit amet porta lobortis, diam tortor auctor diam, id adipiscing mi urna eu elit."
+		    android:textSize="20sp"
+			android:paddingLeft="5dip"
+			android:paddingRight="5dip"/>
+	</ScrollView>
+</LinearLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:stretchColumns="1">
+    <TableRow>
+		<TextView
+	    	android:id="@+id/rowSongTitle"
+	        android:textSize="20sp"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="SiioninLaulu"
+	        android:textStyle="bold"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+		      android:id="@+id/rowSongLyrics"
+		      android:paddingLeft="5dip"
+		      android:paddingRight="5dip"
+		      android:singleLine="false"
+		      android:textSize="12sp"
+		      android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi lacus mi, volutpat eu ultrices at, blandit in nulla. Nullam diam mi, tempus eu placerat at, interdum sit amet nulla. Nullam pellentesque sollicitudin vehicula. Donec aliquam, quam sit amet porta lobortis, diam tortor auctor diam, id adipiscing mi urna eu elit."
+		      android:layout_width="wrap_content"
+		      android:layout_height="wrap_content"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+			android:id="@+id/rowSongInfo"
+			android:paddingLeft="5dip"
+			android:paddingRight="5dip"
+			android:singleLine="false"
+			android:textSize="12sp"
+			android:textStyle="italic"
+			android:textColor="#808080"
+			android:text="Praesent vestibulum tristique imperdiet. Aliquam erat volutpat. Nullam sagittis posuere orci eget cursus."
+			android:layout_width="320dip"
+			android:layout_height="wrap_content"/>
+    </TableRow>
+</TableLayout>

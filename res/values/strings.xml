@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Song Book</string>
+    <string name="search_text">Enter search text.</string>
+    <string name="no_songs">No songs found.</string>
+</resources>
