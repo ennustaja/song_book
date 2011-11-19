@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Choose Songbooks">
+        <CheckBoxPreference
+            android:key="virsi"
+            android:title="Virsi"
+            android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:key="siionin_laulu"
+            android:title="Siionin Laulu"
+            android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:key="shz"
+            android:title="SHZ"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Instant Search">
+        <CheckBoxPreference
+            android:key="useInstantSearch"
+            android:title="Enable Instant Search"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>
