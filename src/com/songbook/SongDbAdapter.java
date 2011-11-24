@@ -62,12 +62,12 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 	}
 
 	  /**
-	 * Creates a empty database on the system and rewrites it with your own database.
+	 * Creates an empty database on the system and rewrites it with your own database.
 	 * */
 	public void createDatabase() throws IOException{
-		boolean dbExist = checkDatabase();
+		//boolean dbExist = checkDatabase();
 		// Set this to false to regenerate db from split files
-		//boolean dbExist = false;
+		boolean dbExist = false;
 
 		if(dbExist){
 			//do nothing - database already exist
@@ -117,11 +117,14 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 		//Open your local db as the input stream
 		/** File cannot be stored as a single database file because
 		 * it exceeds the file size limit of 1048576 bytes.
+         *
+         * To get this to work use 'split db -b 1048576 split_db_' to split
+         * the database into 1048576 byte chunks named split_db_aa, split_db_ab, etc.
+         * Then the first time the program launches these chunks will be merged into
+         * a single database file in the system folder.
 		 * */
 		InputStream dbFile1 = mContext.getAssets().open("split_db_aa");
 		InputStream dbFile2 = mContext.getAssets().open("split_db_ab");
-		InputStream dbFile3 = mContext.getAssets().open("split_db_ac");
-		InputStream dbFile4 = mContext.getAssets().open("split_db_ad");
 
 		// Path to the just created empty db
 		String outFileName = DB_PATH + DB_NAME;
@@ -138,20 +141,12 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 		while ((length = dbFile2.read(buffer))>0){
 			myOutput.write(buffer, 0, length);
 		}
-		while ((length = dbFile3.read(buffer))>0){
-			myOutput.write(buffer, 0, length);
-		}
-		while ((length = dbFile4.read(buffer))>0){
-			myOutput.write(buffer, 0, length);
-		}
 
 		//Close the streams
 		myOutput.flush();
 		myOutput.close();
 		dbFile1.close();
 		dbFile2.close();
-		dbFile3.close();
-		dbFile4.close();
 	}
 
 	public void openDatabase() throws SQLException{
