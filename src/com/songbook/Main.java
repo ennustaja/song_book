@@ -54,7 +54,7 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		TextWatcher searchWatch = new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if(useInstantSearch){
-					fetchSongs(searchField.getText().toString(), true);
+					fetchSongs(searchField.getText().toString());
 				}
 			}
 			public void afterTextChanged(Editable arg0) {}
@@ -70,7 +70,7 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 	public boolean onKey(View v, int keyCode, KeyEvent event){
 		// Do search on ENTER
 		if ((event.getAction() == KeyEvent.ACTION_UP) && (keyCode == KeyEvent.KEYCODE_ENTER)){
-				fetchSongs(searchField.getText().toString(), true);
+            fetchSongs(searchField.getText().toString());
 			return true;
 		}
 		return false;
@@ -80,13 +80,14 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 	 * Captures click events from the button.
 	 */
 	public void onClick(View v){
-		fetchSongs(searchField.getText().toString(), true);
+		fetchSongs(searchField.getText().toString());
 	}
 
 	private void fetchAllSongs(){
-		fetchSongs("", true);
+		fetchSongs("");
 	}
-	private void fetchSongs(String searchTxt, boolean displaySong){
+
+	private void fetchSongs(String searchTxt){
 		int songNum;
 		String searchStr = "";
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -106,30 +107,11 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 
 		// A song was found
 		if(mSongsCursor != null && mSongsCursor.getCount() > 0){
-			// Only one song was found --> Display list and then single song
-			// List display is seen only when returning from single song screen
-			if(mSongsCursor.getCount() == 1){
-				displayList(searchStr);
-				if (displaySong)
-				{
-					displaySong();
-				}
-			} else { // More than one song was found --> Display list of results
-				displayList(searchStr);
-			}
+            displayList(searchStr); // Display list of results
 		} else {
 			mSongsCursor = null;
 			setListAdapter(null);
 		}
-	}
-
-	private void displaySong(){
-		mSongsCursor.moveToFirst();
-		displaySong(
-				mSongsCursor.getString(mSongsCursor.getColumnIndex(SongDbAdapter.KEY_TYPE)),
-				mSongsCursor.getString(mSongsCursor.getColumnIndex(SongDbAdapter.KEY_NUMBER)),
-				mSongsCursor.getString(mSongsCursor.getColumnIndex(SongDbAdapter.KEY_LYRICS)),
-				mSongsCursor.getString(mSongsCursor.getColumnIndex(SongDbAdapter.KEY_INFO)));
 	}
 
 	private void displaySong(String type, String number, String lyrics, String info){
@@ -202,6 +184,6 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		useInstantSearch = settings.getBoolean("useInstantSearch", true);
 
-		fetchSongs(searchField.getText().toString(), false);
+		fetchSongs(searchField.getText().toString());
 	}
 }
