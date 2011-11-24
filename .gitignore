@@ -1,0 +1,5 @@
+bin/classes/*
+bin/classes.dex
+bin/com/*
+bin/res/*
+bin/resources.ap_
