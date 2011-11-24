@@ -7,12 +7,12 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.widget.TextView;
 
 public class SongActivity extends Activity{
 	
 	/* For Log.d messages */	
+	@SuppressWarnings("unused")
 	private static final String TAG = "SongBook";
 	
 	/* View items */

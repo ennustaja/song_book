@@ -3,12 +3,9 @@ package com.songbook;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +14,7 @@ import android.widget.TextView;
 
 public class SongCursorAdapter extends SimpleCursorAdapter {
 	/* For Log.d messages */
+	@SuppressWarnings("unused")
 	private static final String TAG = "SongBook";
 
     private Context context;
