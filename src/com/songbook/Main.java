@@ -95,14 +95,18 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		try{
 			// First try parsing text as a song number
 			songNum = Integer.parseInt(searchTxt);
-			mSongsCursor = mDbHelper.fetchSongsByNumber(songNum, settings.getBoolean("siionin_laulu", true),
-					settings.getBoolean("virsi", true), settings.getBoolean("shz", true));
+			mSongsCursor = mDbHelper.fetchSongsByNumber(songNum, 
+                    settings.getBoolean("siionin_laulu", true),
+					settings.getBoolean("virsi", true), 
+                    settings.getBoolean("shz", true));
 		} catch(NumberFormatException e){
 			// Entered text is not a song number, search for a String
 			// Setting searchStr to non-empty causes search text to be highlighted.
 			searchStr = searchTxt;
-			mSongsCursor = mDbHelper.fetchSongsByString(searchTxt, settings.getBoolean("siionin_laulu", true),
-					settings.getBoolean("virsi", true), settings.getBoolean("shz", true));
+			mSongsCursor = mDbHelper.fetchSongsByString(searchTxt, 
+                    settings.getBoolean("siionin_laulu", true),
+					settings.getBoolean("virsi", true), 
+                    settings.getBoolean("shz", true));
 		}
 
 		// A song was found
