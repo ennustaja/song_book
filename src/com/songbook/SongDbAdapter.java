@@ -177,17 +177,26 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 	 */
 
 	public Cursor fetchAllSongs(boolean siioninLaulu, boolean virsi, boolean shz) {
-		return mDb.query(DB_TABLE, new String[] {KEY_ROWID, KEY_NUMBER,
-				KEY_LYRICS}, getTypeWhereClause(siioninLaulu, virsi, shz), null, null, null, null);
+		return mDb.query(DB_TABLE, 
+                new String[] {KEY_ROWID, KEY_NUMBER, KEY_LYRICS}, 
+                getTypeWhereClause(siioninLaulu, virsi, shz), 
+                null, null, null, null);
 	}
 
-	public Cursor fetchSongsByNumber(int songNum, boolean siioninLaulu, boolean virsi, boolean shz){
+	public Cursor fetchSongsByNumber(int songNum, 
+            boolean siioninLaulu, boolean virsi, boolean shz){
 		Cursor result;
 		try{
 			Log.d(TAG, "db query with songNum = " + songNum);
 
-			result = mDb.query(DB_TABLE, new String[] {KEY_ROWID, KEY_TYPE, KEY_NUMBER, KEY_LYRICS, KEY_INFO},
-					KEY_NUMBER + "=" + songNum + " AND (" + getTypeWhereClause(siioninLaulu, virsi, shz) + ")", null, null, null, null);
+            String queryStr = KEY_NUMBER + "=" + songNum + " AND (" 
+                    + getTypeWhereClause(siioninLaulu, virsi, shz) 
+                    + ")";
+
+			result = mDb.query(DB_TABLE, 
+                    new String[] {KEY_ROWID, KEY_TYPE, KEY_NUMBER, KEY_LYRICS, KEY_INFO},
+                    queryStr,
+                    null, null, null, null);
 		} catch (SQLiteException e){
 			Log.d(TAG, e.toString());
 			result = null;
@@ -198,9 +207,13 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 	public Cursor fetchSongsByString(String str, boolean siioninLaulu, boolean virsi, boolean shz){
 		Cursor result;
 		try{
-			result = mDb.query(DB_TABLE, new String[] {KEY_ROWID, KEY_TYPE, KEY_NUMBER, KEY_LYRICS, KEY_INFO},
-					"(" + KEY_LYRICS + " LIKE '%" + str + "%'" +
-					"OR " + KEY_INFO + " LIKE '%" + str + "%'" + ") AND " + getTypeWhereClause(siioninLaulu, virsi, shz), null, null, null, null);
+            String queryStr = "(" + KEY_LYRICS + " LIKE '%" + str + "%'" +
+					"OR " + KEY_INFO + " LIKE '%" + str + "%'" + 
+                    ") AND (" + getTypeWhereClause(siioninLaulu, virsi, shz) + ")";
+			result = mDb.query(DB_TABLE, 
+                    new String[] {KEY_ROWID, KEY_TYPE, KEY_NUMBER, KEY_LYRICS, KEY_INFO},
+                    queryStr,
+                    null, null, null, null);
 		} catch (SQLiteException e){
 			Log.d(TAG, e.toString());
 			result = null;
