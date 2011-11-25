@@ -1,6 +1,5 @@
 Song book application
 ==============
----
 
 To fix a song typo or modify the songs
 ---------------
