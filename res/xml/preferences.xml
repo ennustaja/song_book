@@ -22,6 +22,10 @@
             android:key="useInstantSearch"
             android:title="Enable Instant Search"
             android:defaultValue="true"/>
+        <CheckBoxPreference
+            android:key="numericDefault"
+            android:title="Default to numeric keyboard"
+            android:defaultValue="false"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

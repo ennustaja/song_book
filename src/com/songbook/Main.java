@@ -1,6 +1,7 @@
 package com.songbook;
 
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.view.*;
 
 import android.app.ListActivity;
@@ -33,11 +34,45 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
+		// Restore preferences
+		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+		useInstantSearch = settings.getBoolean("useInstantSearch", true);
+
 		searchField = (EditText)findViewById(R.id.searchFieldEditText);
 		ImageButton getLyricsBtn = (ImageButton) findViewById(R.id.getLyricsButton);
 
 		searchField.setOnKeyListener(this);
-		getLyricsBtn.setOnClickListener(this);
+		if (useInstantSearch)
+		{
+			getLyricsBtn.setVisibility(View.GONE);
+		} else
+		{
+			getLyricsBtn.setOnClickListener(this);
+		}
+
+		ImageButton preferencesBtn = (ImageButton) findViewById(R.id.preferences);
+		preferencesBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				Intent intent = new Intent(Main.this, SetPrefs.class);
+				startActivityForResult(intent, 0);
+			}
+		});
+
+		ImageButton alphaBtn = (ImageButton) findViewById(R.id.alpha);
+		if (settings.getBoolean("numericDefault", false))
+		{
+			searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
+			alphaBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					searchField.setInputType(InputType.TYPE_CLASS_TEXT);
+				}
+			});
+		} else
+		{
+			alphaBtn.setVisibility(View.GONE);
+		}
 
 		/** Set initial focus to the search field */
 		searchField.requestFocus();
@@ -46,10 +81,6 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		mDbHelper.open();
 
 		fetchAllSongs();
-
-		// Restore preferences
-		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
-		useInstantSearch = settings.getBoolean("useInstantSearch", true);
 
 		TextWatcher searchWatch = new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -118,16 +149,6 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		}
 	}
 
-	private void displaySong(String type, String number, String lyrics, String info){
-		Intent songIntent = new Intent();
-		songIntent.setClassName("com.songbook", "com.songbook.SongActivity");
-		songIntent.putExtra("type", type);
-		songIntent.putExtra("number", number);
-		songIntent.putExtra("lyrics", lyrics);
-		songIntent.putExtra("info", info);
-		startActivity(songIntent);
-	}
-
 	private void displayList(String searchStr){
 		startManagingCursor(mSongsCursor);
 
@@ -152,11 +173,11 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		super.onListItemClick(l, v, position, id);
 		Cursor c = mSongsCursor;
 		c.moveToPosition(position);
-		displaySong(
-				c.getString(c.getColumnIndex(SongDbAdapter.KEY_TYPE)),
-				c.getString(c.getColumnIndex(SongDbAdapter.KEY_NUMBER)),
-				c.getString(c.getColumnIndex(SongDbAdapter.KEY_LYRICS)),
-				c.getString(c.getColumnIndex(SongDbAdapter.KEY_INFO)));
+
+		Intent songPager = new Intent(this, SongPager.class);
+		songPager.putExtra("number", c.getString(c.getColumnIndex(SongDbAdapter.KEY_NUMBER)));
+		songPager.putExtra("type", c.getString(c.getColumnIndex(SongDbAdapter.KEY_TYPE)));
+		startActivity(songPager);
 	}
 
 	/**
@@ -164,22 +185,9 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.options_menu, menu);
+		Intent intent = new Intent(this, SetPrefs.class);
+		startActivityForResult(intent, 0);
 		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.preferences:
-			Intent intent = new Intent(this, SetPrefs.class);
-			startActivityForResult(intent, 0);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
 	}
 
 	@Override
@@ -189,5 +197,21 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		useInstantSearch = settings.getBoolean("useInstantSearch", true);
 
 		fetchSongs(searchField.getText().toString());
+		ImageButton alphaBtn = (ImageButton) findViewById(R.id.alpha);
+		if (settings.getBoolean("numericDefault", false))
+		{
+			alphaBtn.setVisibility(View.VISIBLE);
+			searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
+			alphaBtn.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					searchField.setInputType(InputType.TYPE_CLASS_TEXT);
+				}
+			});
+		} else
+		{
+			searchField.setInputType(InputType.TYPE_CLASS_TEXT);
+			alphaBtn.setVisibility(View.GONE);
+		}
 	}
 }
