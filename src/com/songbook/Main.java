@@ -52,7 +52,6 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 
 		ImageButton preferencesBtn = (ImageButton) findViewById(R.id.preferences);
 		preferencesBtn.setOnClickListener(new OnClickListener() {
-			@Override
 			public void onClick(View view) {
 				Intent intent = new Intent(Main.this, SetPrefs.class);
 				startActivityForResult(intent, 0);
@@ -64,7 +63,6 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		{
 			searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
 			alphaBtn.setOnClickListener(new OnClickListener() {
-				@Override
 				public void onClick(View view) {
 					searchField.setInputType(InputType.TYPE_CLASS_TEXT);
 				}
@@ -203,7 +201,6 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 			alphaBtn.setVisibility(View.VISIBLE);
 			searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
 			alphaBtn.setOnClickListener(new OnClickListener() {
-				@Override
 				public void onClick(View view) {
 					searchField.setInputType(InputType.TYPE_CLASS_TEXT);
 				}
