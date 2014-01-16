@@ -28,6 +28,9 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 
 	private boolean useInstantSearch;
 
+	private ImageButton alphaBtn;
+	private ImageButton getLyricsBtn;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +42,7 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		useInstantSearch = settings.getBoolean("useInstantSearch", true);
 
 		searchField = (EditText)findViewById(R.id.searchFieldEditText);
-		ImageButton getLyricsBtn = (ImageButton) findViewById(R.id.getLyricsButton);
+		getLyricsBtn = (ImageButton) findViewById(R.id.getLyricsButton);
 
 		searchField.setOnKeyListener(this);
 		if (useInstantSearch)
@@ -58,15 +61,21 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 			}
 		});
 
-		ImageButton alphaBtn = (ImageButton) findViewById(R.id.alpha);
+		alphaBtn = (ImageButton) findViewById(R.id.alpha);
+		alphaBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View view) {
+				if (searchField.getInputType() == InputType.TYPE_CLASS_NUMBER)
+				{
+					searchField.setInputType(InputType.TYPE_CLASS_TEXT);
+				} else
+				{
+					searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
+				}
+			}
+		});
 		if (settings.getBoolean("numericDefault", false))
 		{
 			searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
-			alphaBtn.setOnClickListener(new OnClickListener() {
-				public void onClick(View view) {
-					searchField.setInputType(InputType.TYPE_CLASS_TEXT);
-				}
-			});
 		} else
 		{
 			alphaBtn.setVisibility(View.GONE);
@@ -195,20 +204,22 @@ public class Main extends ListActivity implements OnKeyListener, OnClickListener
 		useInstantSearch = settings.getBoolean("useInstantSearch", true);
 
 		fetchSongs(searchField.getText().toString());
-		ImageButton alphaBtn = (ImageButton) findViewById(R.id.alpha);
 		if (settings.getBoolean("numericDefault", false))
 		{
-			alphaBtn.setVisibility(View.VISIBLE);
 			searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
-			alphaBtn.setOnClickListener(new OnClickListener() {
-				public void onClick(View view) {
-					searchField.setInputType(InputType.TYPE_CLASS_TEXT);
-				}
-			});
+			alphaBtn.setVisibility(View.VISIBLE);
 		} else
 		{
 			searchField.setInputType(InputType.TYPE_CLASS_TEXT);
 			alphaBtn.setVisibility(View.GONE);
+		}
+
+		if (useInstantSearch)
+		{
+			getLyricsBtn.setVisibility(View.GONE);
+		} else
+		{
+			getLyricsBtn.setVisibility(View.VISIBLE);
 		}
 	}
 }
