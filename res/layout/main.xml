@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.songbook.SearchLayout
     	android:orientation="horizontal"
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content">
@@ -37,8 +37,8 @@
                 android:layout_width="60dip"
                 android:layout_gravity="right"
                 android:minWidth="50dip"/>
-	</LinearLayout>
-    
+	</com.songbook.SearchLayout>
+
 	<ListView android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
