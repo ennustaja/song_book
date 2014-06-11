@@ -65,7 +65,6 @@ public class SongPager extends FragmentActivity {
 		public Fragment getItem(int song_number) {
 			String type = SongDbAdapter.TYPE_SHZ, number = "1", lyrics = "", info = "";
 			if (song_number > -1) {
-				mDbHelper.open();
 				Cursor songsCursor = mDbHelper.fetchSongsByNumber(song_number + 1, SongDbAdapter.TYPE_SIIONIN_LAULU.equals(mType),
 						SongDbAdapter.TYPE_VIRSI.equals(mType), SongDbAdapter.TYPE_SHZ.equals(mType));
 				if(songsCursor != null && songsCursor.getCount() > 0){
