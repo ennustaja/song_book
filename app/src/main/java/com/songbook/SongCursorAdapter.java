@@ -29,7 +29,7 @@ public class SongCursorAdapter extends SimpleCursorAdapter {
     
     private LayoutInflater mInflater;
 
-    public SongCursorAdapter (Context context, int layout, Cursor c, String[] from, int[] to, String highlightStr) {
+    private SongCursorAdapter (Context context, int layout, Cursor c, String[] from, int[] to, String highlightStr) {
         super(context, layout, c, from, to);
         this.context = context;
         this.layout = layout;
@@ -42,6 +42,13 @@ public class SongCursorAdapter extends SimpleCursorAdapter {
         mHighlightStr = highlightStr;
         
         mInflater = LayoutInflater.from(context);
+    }
+
+    public static SongCursorAdapter createSongCursorAdapter(Context context, Cursor songsCursor, String highlightStr) {
+		String[] from = new String[]{SongDbAdapter.KEY_TYPE, SongDbAdapter.KEY_NUMBER,
+				SongDbAdapter.KEY_LYRICS, SongDbAdapter.KEY_INFO};
+		int[] to = new int[]{R.id.rowSongTitle, R.id.rowSongLyrics, R.id.rowSongInfo};
+		return new SongCursorAdapter(context, R.layout.result_row, songsCursor, from, to, highlightStr);
     }
 
 	@Override

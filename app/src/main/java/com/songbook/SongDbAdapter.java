@@ -14,7 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class SongDbAdapter extends SQLiteOpenHelper{
-	/* For Log.d messages */
 	private static final String TAG = "SongBook";
 
 	//The Android's default system path of your application database.
@@ -36,15 +35,10 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 
 	private final Context mContext;
 
-	/**
-	 * Constructor - takes the context to allow the database to be
-	 * opened/created
-	 *
-	 * @param ctx	the Context within which to work
-	 */
 	public SongDbAdapter(Context ctx) {
 		super(ctx, DB_NAME, null, 1);
 		this.mContext = ctx;
+        this.open();
 	}
 
 	public void open(){
