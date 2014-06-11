@@ -14,8 +14,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class SongDbAdapter extends SQLiteOpenHelper{
-	private static final String TAG = "SongBook";
-
 	// Android default system path for app database
 	private static String ASSETS_DB_NAME = "songbook_database";
 	private static String DB_PATH = "/data/data/com.songbook/databases/";
@@ -66,7 +64,7 @@ public class SongDbAdapter extends SQLiteOpenHelper{
         try {
             copyDatabaseFromAssets(context);
         } catch(IOException e) {
-            Log.d(TAG, "Database could not be copied from assets", e);
+            Log.d(SongbookApplication.TAG, "Database could not be copied from assets", e);
         }
         openDatabase();
     }
@@ -96,7 +94,7 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 		try {
 			database = SQLiteDatabase.openDatabase(DB_FULL_PATH, null, SQLiteDatabase.OPEN_READONLY);
 		} catch(SQLiteException e){
-            Log.d(TAG, "Database '" + DB_FULL_PATH + "' could not be opened", e);
+            Log.d(SongbookApplication.TAG, "Database '" + DB_FULL_PATH + "' could not be opened", e);
             return false;
 		}
         return true;
@@ -123,7 +121,7 @@ public class SongDbAdapter extends SQLiteOpenHelper{
                     queryStr,
                     null, null, null, null);
 		} catch (SQLiteException e){
-			Log.d(TAG, e.toString());
+			Log.d(SongbookApplication.TAG, e.toString());
 			result = null;
 		}
 		return result;
@@ -141,7 +139,7 @@ public class SongDbAdapter extends SQLiteOpenHelper{
                     queryStr,
                     null, null, null, null);
 		} catch (SQLiteException e){
-			Log.d(TAG, e.toString());
+			Log.d(SongbookApplication.TAG, e.toString());
 			result = null;
 		}
 		return result;

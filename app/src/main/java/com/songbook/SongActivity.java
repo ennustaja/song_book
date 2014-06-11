@@ -10,11 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 public class SongActivity extends ListFragment {
-
-	/* For Log.d messages */
-	@SuppressWarnings("unused")
-	private static final String TAG = "SongBook";
-
 	private String number;
 	private String type;
 	private String lyrics;
