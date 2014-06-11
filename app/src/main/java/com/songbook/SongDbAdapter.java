@@ -108,6 +108,8 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 	 * */
 
 	private void copyDatabase() throws IOException{
+        Log.d(TAG, "copying database");
+
 		//Open your local db as the input stream
 		/** File cannot be stored as a single database file because
 		 * it exceeds the file size limit of 1048576 bytes.
@@ -117,8 +119,9 @@ public class SongDbAdapter extends SQLiteOpenHelper{
          * Then the first time the program launches these chunks will be merged into
          * a single database file in the system folder.
 		 * */
-		InputStream dbFile1 = mContext.getAssets().open("split_db_aa");
-		InputStream dbFile2 = mContext.getAssets().open("split_db_ab");
+		// InputStream dbFile1 = mContext.getAssets().open("split_db_aa");
+		// InputStream dbFile2 = mContext.getAssets().open("split_db_ab");
+		InputStream dbFile1 = mContext.getAssets().open("songbook_database");
 
 		// Path to the just created empty db
 		String outFileName = DB_PATH + DB_NAME;
@@ -132,15 +135,15 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 		while ((length = dbFile1.read(buffer))>0){
 			myOutput.write(buffer, 0, length);
 		}
-		while ((length = dbFile2.read(buffer))>0){
-			myOutput.write(buffer, 0, length);
-		}
+		// while ((length = dbFile2.read(buffer))>0){
+		// 	myOutput.write(buffer, 0, length);
+		// }
 
 		//Close the streams
 		myOutput.flush();
 		myOutput.close();
 		dbFile1.close();
-		dbFile2.close();
+		// dbFile2.close();
 	}
 
 	public void openDatabase() throws SQLException{
