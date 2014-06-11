@@ -28,6 +28,7 @@ public class MainActivity extends ListActivity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		searchField = (EditText) findViewById(R.id.searchFieldEditText);
@@ -46,8 +47,21 @@ public class MainActivity extends ListActivity {
 	protected void onResume() {
 		super.onResume();
         restorePreferences();
-        searchForSongs();
+        searchForSongsWithEnteredText();
 	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+        openSettings();
+		return true;
+	}
+
+	@Override
+	protected void onListItemClick(ListView l, View v, int position, long id) {
+		super.onListItemClick(l, v, position, id);
+		songsCursor.moveToPosition(position);
+        displaySelectedSong();
+    }
 
     private void restorePreferences() {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
@@ -73,10 +87,14 @@ public class MainActivity extends ListActivity {
 		ImageButton preferencesBtn = (ImageButton) findViewById(R.id.preferences);
 		preferencesBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
-				Intent intent = new Intent(MainActivity.this, SetPrefs.class);
-				startActivityForResult(intent, 0);
+                openSettings();
 			}
 		});
+    }
+    
+    private void openSettings() {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        startActivityForResult(intent, 0);
     }
 
     private void toggleAlphanumericInputOnClick() {
@@ -99,7 +117,7 @@ public class MainActivity extends ListActivity {
 		searchField.addTextChangedListener(new TextWatcher() {
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				if(useInstantSearch){
-					searchForSongs();
+					searchForSongsWithEnteredText();
 				}
 			}
 			public void afterTextChanged(Editable arg0) {}
@@ -115,7 +133,7 @@ public class MainActivity extends ListActivity {
                     boolean isEnter = (keyCode == KeyEvent.KEYCODE_ENTER);
                     boolean enterWasReleased = isKeyRelease && isEnter;
                     if (enterWasReleased) {
-                        searchForSongs();
+                        searchForSongsWithEnteredText();
                         return true;
                     }
                     return false;
@@ -127,9 +145,14 @@ public class MainActivity extends ListActivity {
         getLyricsBtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchForSongs();
+                searchForSongsWithEnteredText();
             }
         });
+    }
+
+    private void searchForSongsWithEnteredText() {
+        String searchText = searchField.getText().toString();
+        displaySongsFromSearch(searchText);
     }
 
 	private void displayAllSongs(){
@@ -170,13 +193,6 @@ public class MainActivity extends ListActivity {
 		setListAdapter(songCursorAdapter);
 	}
 
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		songsCursor.moveToPosition(position);
-        displaySelectedSong();
-    }
-
     private void displaySelectedSong() {
 		String selectedNumber = songsCursor.getString(songsCursor.getColumnIndex(SongDbAdapter.KEY_NUMBER));
 		String selectedType = songsCursor.getString(songsCursor.getColumnIndex(SongDbAdapter.KEY_TYPE));
@@ -189,16 +205,4 @@ public class MainActivity extends ListActivity {
 		songPager.putExtra("type", selectedType);
 		startActivity(songPager);
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		Intent intent = new Intent(this, SetPrefs.class);
-		startActivityForResult(intent, 0);
-		return true;
-	}
-
-    private void searchForSongs() {
-        String searchText = searchField.getText().toString();
-        displaySongsFromSearch(searchText);
-    }
 }
