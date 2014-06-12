@@ -1,7 +1,9 @@
-package com.songbook;
+package com.songbook.view;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+
+import com.songbook.R;
 
 public class SettingsActivity extends PreferenceActivity {
     @Override

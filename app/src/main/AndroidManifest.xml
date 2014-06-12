@@ -8,7 +8,7 @@
 								 android:label="@string/app_name"
 								 android:debuggable="true"
 							   android:name="com.songbook.SongbookApplication">
-        <activity android:name=".MainActivity"
+        <activity android:name=".view.MainActivity"
                   android:label="@string/app_name"
                   android:theme="@style/Theme.TranslucentNavigation">
             <intent-filter>
@@ -16,10 +16,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SetPrefs"
+        <activity android:name=".view.SettingsActivity"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar"/>
-        <activity android:name=".SongPager"
+        <activity android:name=".view.SongActivity"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar"/>
     </application>

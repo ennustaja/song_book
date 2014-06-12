@@ -5,9 +5,6 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-/**
- * Created by bob on 1/19/14.
- */
 public class SearchLayout extends LinearLayout {
 	public SearchLayout(Context context) {
 		super(context);

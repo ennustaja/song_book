@@ -1,4 +1,4 @@
-package com.songbook;
+package com.songbook.view;
 
 import android.database.Cursor;
 import android.os.Build;
@@ -10,10 +10,10 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-/**
- * Created by bob on 1/1/14.
- */
-public class SongPager extends FragmentActivity {
+import com.songbook.R;
+import com.songbook.SongDbAdapter;
+
+public class SongActivity extends FragmentActivity {
 
 	MyAdapter mAdapter;
 	ViewPager mPager;
@@ -21,7 +21,7 @@ public class SongPager extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.song_pager);
+		setContentView(R.layout.activity_song);
 		SongDbAdapter mDbHelper = new SongDbAdapter(this);
 
 		mAdapter = new MyAdapter(getSupportFragmentManager(), mDbHelper, getIntent().getStringExtra("type"));
@@ -79,7 +79,7 @@ public class SongPager extends FragmentActivity {
 					mDbHelper.close();
 				}
 			}
-			return SongActivity.newInstance(number, type, lyrics, info);
+			return new SongFragment(number, type, lyrics, info);
 		}
 
 		@Override

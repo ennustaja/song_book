@@ -1,4 +1,4 @@
-package com.songbook;
+package com.songbook.view;
 
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -9,44 +9,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-public class SongActivity extends ListFragment {
+import com.songbook.R;
+import com.songbook.SongDbAdapter;
+
+public class SongFragment extends ListFragment {
 	private String number;
 	private String type;
 	private String lyrics;
 	private String info;
 
-	/**
-	 * Create a new instance of CountingFragment, providing "num"
-	 * as an argument.
-	 */
-	static SongActivity newInstance(String num, String type, String lyrics, String info) {
-		SongActivity f = new SongActivity();
-
-		// Supply num input as an argument.
-		Bundle args = new Bundle();
-		args.putString("num", num);
-		args.putString("type", type);
-		args.putString("lyrics", lyrics);
-		args.putString("info", info);
-		f.setArguments(args);
-
-		return f;
+	public SongFragment(String number, String type, String lyrics, String info) {
+		this.number = number != null ? number : "1";
+		this.type = type != null ? type : SongDbAdapter.TYPE_SHZ;
+		this.lyrics = lyrics != null ? lyrics : "";
+		this.info = info != null ? info : "";
 	}
 
-
-	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		number = getArguments() != null ? getArguments().getString("num") : "1";
-		type = getArguments() != null ? getArguments().getString("type") : SongDbAdapter.TYPE_SHZ;
-		lyrics = getArguments() != null ? getArguments().getString("lyrics") : "";
-		info = getArguments() != null ? getArguments().getString("info") : "";
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.song, container, false);
+		View v = inflater.inflate(R.layout.fragment_song, container, false);
 		TextView songTitle = (TextView) v.findViewById(R.id.songTitle);
 		TextView songLyricsAndInfo = (TextView) v.findViewById(R.id.songLyricsAndInfo);
 

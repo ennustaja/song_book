@@ -1,4 +1,4 @@
-package com.songbook;
+package com.songbook.view;
 
 import android.preference.PreferenceManager;
 import android.text.InputType;
@@ -17,6 +17,10 @@ import android.content.SharedPreferences;
 import android.text.TextWatcher;
 import android.text.Editable;
 
+import com.songbook.R;
+import com.songbook.SongCursorAdapter;
+import com.songbook.SongDbAdapter;
+
 public class MainActivity extends ListActivity {
 	private SongDbAdapter dbAdapter;
 	private EditText searchField;
@@ -30,7 +34,7 @@ public class MainActivity extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main);
+		setContentView(R.layout.activity_main);
 		searchField = (EditText) findViewById(R.id.searchFieldEditText);
 		getLyricsBtn = (ImageButton) findViewById(R.id.getLyricsButton);
 		alphaBtn = (ImageButton) findViewById(R.id.alpha);
@@ -67,6 +71,12 @@ public class MainActivity extends ListActivity {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
 		useInstantSearch = settings.getBoolean("useInstantSearch", true);
 
+        if(useInstantSearch) {
+            getLyricsBtn.setVisibility(View.GONE);
+        } else {
+            getLyricsBtn.setVisibility(View.VISIBLE);
+        }
+
 		if (settings.getBoolean("numericDefault", false)) {
 			searchField.setInputType(InputType.TYPE_CLASS_NUMBER);
 			alphaBtn.setVisibility(View.VISIBLE);
@@ -79,6 +89,7 @@ public class MainActivity extends ListActivity {
     private void setActions() {
         searchForSongsOnEnter();
         searchForSongsOnTextEntered();
+        searchForSongsOnButtonPress();
         displayPreferencesOnButtonClick();
         toggleAlphanumericInputOnClick();
     }
@@ -127,7 +138,6 @@ public class MainActivity extends ListActivity {
 
     private void searchForSongsOnEnter() {
 		searchField.setOnKeyListener(new OnKeyListener() {
-                @Override
                 public boolean onKey(View v, int keyCode, KeyEvent event){
                     boolean isKeyRelease = (event.getAction() == KeyEvent.ACTION_UP);
                     boolean isEnter = (keyCode == KeyEvent.KEYCODE_ENTER);
@@ -143,7 +153,6 @@ public class MainActivity extends ListActivity {
     
     private void searchForSongsOnButtonPress() {
         getLyricsBtn.setOnClickListener(new OnClickListener() {
-            @Override
             public void onClick(View view) {
                 searchForSongsWithEnteredText();
             }
@@ -200,7 +209,7 @@ public class MainActivity extends ListActivity {
     }
 
     private void displaySong(String selectedNumber, String selectedType) {
-		Intent songPager = new Intent(this, SongPager.class);
+		Intent songPager = new Intent(this, SongActivity.class);
 		songPager.putExtra("number", selectedNumber);
 		songPager.putExtra("type", selectedType);
 		startActivity(songPager);

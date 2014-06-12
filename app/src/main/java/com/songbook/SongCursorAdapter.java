@@ -48,7 +48,7 @@ public class SongCursorAdapter extends SimpleCursorAdapter {
 		String[] from = new String[]{SongDbAdapter.KEY_TYPE, SongDbAdapter.KEY_NUMBER,
 				SongDbAdapter.KEY_LYRICS, SongDbAdapter.KEY_INFO};
 		int[] to = new int[]{R.id.rowSongTitle, R.id.rowSongLyrics, R.id.rowSongInfo};
-		return new SongCursorAdapter(context, R.layout.result_row, songsCursor, from, to, highlightStr);
+		return new SongCursorAdapter(context, R.layout.item_song, songsCursor, from, to, highlightStr);
     }
 
 	@Override
@@ -128,6 +128,6 @@ public class SongCursorAdapter extends SimpleCursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-    	return mInflater.inflate(R.layout.result_row, null);
+    	return mInflater.inflate(R.layout.item_song, null);
     }
 }
