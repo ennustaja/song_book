@@ -79,7 +79,14 @@ public class SongActivity extends FragmentActivity {
 					mDbHelper.close();
 				}
 			}
-			return new SongFragment(number, type, lyrics, info);
+			SongFragment sf = new SongFragment();
+			Bundle bdl = new Bundle(4);
+			bdl.putString(SongDbAdapter.KEY_NUMBER, number);
+			bdl.putString(SongDbAdapter.KEY_TYPE, type);
+			bdl.putString(SongDbAdapter.KEY_LYRICS, lyrics);
+			bdl.putString(SongDbAdapter.KEY_INFO, info);
+			sf.setArguments(bdl);
+			return sf;
 		}
 
 		@Override

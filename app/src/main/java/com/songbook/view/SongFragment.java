@@ -18,15 +18,15 @@ public class SongFragment extends ListFragment {
 	private String lyrics;
 	private String info;
 
-	public SongFragment(String number, String type, String lyrics, String info) {
-		this.number = number != null ? number : "1";
-		this.type = type != null ? type : SongDbAdapter.TYPE_SHZ;
-		this.lyrics = lyrics != null ? lyrics : "";
-		this.info = info != null ? info : "";
+	public SongFragment() {
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		this.number = getArguments().getString(SongDbAdapter.KEY_NUMBER);
+		this.type = getArguments().getString(SongDbAdapter.KEY_TYPE);
+		this.lyrics = getArguments().getString(SongDbAdapter.KEY_LYRICS);
+		this.info = getArguments().getString(SongDbAdapter.KEY_INFO);
 		super.onCreate(savedInstanceState);
 	}
 
