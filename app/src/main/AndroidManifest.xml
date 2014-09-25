@@ -6,7 +6,6 @@
 	    package="com.songbook">
     <application android:icon="@drawable/icon" 
 								 android:label="@string/app_name"
-								 android:debuggable="true"
 							   android:name="com.songbook.SongbookApplication">
         <activity android:name=".view.MainActivity"
                   android:label="@string/app_name"
