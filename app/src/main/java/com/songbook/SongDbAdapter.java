@@ -34,7 +34,7 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 	private SQLiteDatabase database;
 
 	public SongDbAdapter(Context context) {
-		super(context, DB_NAME, null, 1);
+		super(context, DB_NAME, null, 2);
         openDatabaseAndCreateIfNeeded(context);
 	}
 
@@ -44,6 +44,12 @@ public class SongDbAdapter extends SQLiteOpenHelper{
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	}
+
+	@Override
+	public void onOpen(SQLiteDatabase db) {
+		super.onOpen(db);
+		db.disableWriteAheadLogging();
 	}
 
 	@Override
@@ -70,7 +76,8 @@ public class SongDbAdapter extends SQLiteOpenHelper{
     }
 
     private void createEmptyDatabaseInDefaultPath() {
-        this.getReadableDatabase();
+		this.getReadableDatabase();
+		this.close();
     }
 
 	private void copyDatabaseFromAssets(Context context) throws IOException{
