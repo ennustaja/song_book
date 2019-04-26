@@ -28,4 +28,13 @@
             android:defaultValue="false"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Display">
+        <ListPreference
+            android:key="textSize"
+            android:title="Select text size"
+            android:entries="@array/text_entries"
+            android:entryValues="@array/text_values"
+            android:defaultValue="20"/>
+    </PreferenceCategory>
+
 </PreferenceScreen>
