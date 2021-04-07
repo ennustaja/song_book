@@ -3,13 +3,14 @@ package com.songbook.view;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ListFragment;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.fragment.app.ListFragment;
 
 import com.songbook.R;
 import com.songbook.SongDbAdapter;
@@ -37,8 +38,8 @@ public class SongFragment extends ListFragment {
 		SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 		View v = inflater.inflate(R.layout.fragment_song, container, false);
-		TextView songTitle = (TextView) v.findViewById(R.id.songTitle);
-		TextView songLyricsAndInfo = (TextView) v.findViewById(R.id.songLyricsAndInfo);
+		TextView songTitle = v.findViewById(R.id.songTitle);
+		TextView songLyricsAndInfo = v.findViewById(R.id.songLyricsAndInfo);
 
 		String title = formatTitle(type, number);
 		Spanned lyricsAndInfo = formatLyricsAndInfo(lyrics, info);
